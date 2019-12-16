@@ -12,8 +12,6 @@ import ngransac
 from network import CNNet
 from dataset import SparseDataset
 import util
-import pdb
-
 
 parser = util.create_parser('NG-RANSAC demo for a user defined image pair. Fits an essential matrix (default) or fundamental matrix (-fmat) using OpenCV RANSAC vs. NG-RANSAC.')
 
@@ -32,18 +30,11 @@ parser.add_argument('--focallength1', '-fl1', type=float, default=900,
 parser.add_argument('--focallength2', '-fl2', type=float, default=900, 
 	help='focal length of image 2 (only used when fitting the essential matrix)')
 
-#parser.add_argument('--model', '-m', default='weights_e2e_E_r1.00__Dec_10_20_1_new_99.net',
-#	help='model to load, leave empty and the script infers an appropriate pre-trained model from the other settings')
-
-parser.add_argument('--model', '-m', default='weights_e2e_E_r1.00__Dec_10_20_1_new_5.net',
+parser.add_argument('--model', '-m', default='',
 	help='model to load, leave empty and the script infers an appropriate pre-trained model from the other settings')
 
-#parser.add_argument('--model', '-m', default='',
-#	help='model to load, leave empty and the script infers an appropriate pre-trained model from the other settings')
 parser.add_argument('--hyps', '-hyps', type=int, default=1000, 
 	help='number of hypotheses, i.e. number of RANSAC iterations')
-
-
 
 parser.add_argument('--refine', '-ref', action='store_true', 
 	help='refine using the 8point algorithm on all inliers, only used for fundamental matrix estimation (-fmat)')
@@ -112,7 +103,6 @@ K2[1,2] = img2.shape[0] * 0.5
 kp1, desc1 = detector.detectAndCompute(img1, None)
 kp2, desc2 = detector.detectAndCompute(img2, None)
 
-
 print("\nFeature found in image 1:", len(kp1))
 print("Feature found in image 2:", len(kp2))
 
@@ -148,8 +138,6 @@ print("Number of valid matches:", len(good_matches))
 
 pts1 = np.array([pts1])
 pts2 = np.array([pts2])
-
-#pdb.set_trace()
 
 ratios = np.array([ratios])
 ratios = np.expand_dims(ratios, 2)
